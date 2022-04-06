@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "161563025902",
+    "firebase_url": "https://fluttermessenger-fbcc8-default-rtdb.firebaseio.com",
+    "project_id": "fluttermessenger-fbcc8",
+    "storage_bucket": "fluttermessenger-fbcc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161563025902:android:5cb2cb4794a303a5492eff",
+        "android_client_info": {
+          "package_name": "com.example.flutter_messenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "161563025902-7nqkmusrbkcprb904ipjr36aogu7kc1c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAi1InYmHtwV_ODZFDwKTebXhF1nUrbG2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "161563025902-7nqkmusrbkcprb904ipjr36aogu7kc1c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
