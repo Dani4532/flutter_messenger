@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_messenger/domain/chat.dart';
 import 'package:flutter_messenger/domain/chat_list.dart';
 import 'package:flutter_messenger/widgets/bottom_input_field_widget.dart';
 import 'package:flutter_messenger/widgets/chat_list_widget.dart';
