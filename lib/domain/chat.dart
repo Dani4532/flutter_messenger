@@ -4,19 +4,20 @@ import 'package:flutter_messenger/domain/content.dart';
 class Chat{
   String? id;
   String name;
-
+  String creation;
   List<Content> content;
 
 
-  Chat(this.name, this.content, [this.id]);
+  Chat(this.name, this.creation ,this.content, [this.id]);
 
   Chat.fromJson(String id, Map<String,dynamic> json) : this(
-      json['chatname'], ChatList().getContentList(json['messages']), id
+      json['chatname'], json['creation'], ChatList().getContentList(json['messages']), id
   );
 
   Map<String,dynamic> toJson(){
     return {
-      "chatname": name,
+      "creation": creation,
+      "chatname": name
     };
 
   }

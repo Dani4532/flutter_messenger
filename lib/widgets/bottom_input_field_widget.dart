@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_messenger/domain/chat.dart';
 import 'package:flutter_messenger/domain/chat_list.dart';
 import 'package:provider/provider.dart';
 
 class BottomInputFieldWidget extends StatelessWidget {
-  const BottomInputFieldWidget( {Key? key}) : super(key: key);
+  final Future<void> Function() didChangeDependencies;
+  Timer timer;
+  BottomInputFieldWidget(this.didChangeDependencies, this.timer,  {Key? key}) : super(key: key);
 
 
 
@@ -30,9 +34,16 @@ class BottomInputFieldWidget extends StatelessWidget {
                   decoration: new InputDecoration(
                     hintText: 'Create New Chat',
                   ),
+                  onTap: (){
+
+                      timer.cancel();
+
+                  },
                   onSubmitted: (value) {
-                    chatData.addChat(Chat(value,[]));
+                    var dateNow = DateTime.now().day.toString() +"."+ DateTime.now().month.toString() +"."+ DateTime.now().year.toString();
+                    chatData.addChat(Chat(value,dateNow,[]));
                     chatContorller.clear();
+                    didChangeDependencies();
                   },
                 ),
               ),
@@ -43,8 +54,10 @@ class BottomInputFieldWidget extends StatelessWidget {
                 color: Colors.white,
                 icon: Icon(Icons.send),
                 onPressed: () {
-                  chatData.addChat(Chat(chatContorller.text,[]));
+                  var dateNow = DateTime.now().day.toString() +"."+ DateTime.now().month.toString() +"."+ DateTime.now().year.toString();
+                  chatData.addChat(Chat(chatContorller.text,dateNow, []));
                   chatContorller.clear();
+                  didChangeDependencies();
                 },
               ),
             ),

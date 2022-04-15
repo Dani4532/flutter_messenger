@@ -6,11 +6,17 @@ import 'package:flutter_messenger/domain/chat_list.dart';
 import 'package:flutter_messenger/domain/content.dart';
 import 'package:provider/provider.dart';
 
-class BottomChatInputWidget extends StatelessWidget {
+class BottomChatInputWidget extends StatefulWidget {
   Chat chat;
+  Timer timer;
+  Future<void> Function() changeDependencies;
+  BottomChatInputWidget(this.chat, this.timer, this.changeDependencies, {Key? key}) : super(key: key);
 
-  BottomChatInputWidget(this.chat, {Key? key}) : super(key: key);
+  @override
+  State<BottomChatInputWidget> createState() => _BottomChatInputWidgetState();
+}
 
+class _BottomChatInputWidgetState extends State<BottomChatInputWidget> {
   @override
   Widget build(BuildContext context) {
     var chatController = TextEditingController();
@@ -32,10 +38,15 @@ class BottomChatInputWidget extends StatelessWidget {
                   decoration: new InputDecoration(
                     hintText: 'Message',
                   ),
+                  onTap: (){
+                   widget.timer.cancel();
+                  },
                   onSubmitted: (value) {
-                    Provider.of<ChatList>(context, listen: false)
-                        .addContent(chat, Content(value));
-                    chatController.clear();
+                    var timeString = DateTime.now().hour.toString() + ':' + DateTime.now().minute.toString();
+                      Provider.of<ChatList>(context, listen: false)
+                          .addContent(widget.chat, Content(value, timeString));
+                      chatController.clear();
+                    widget.changeDependencies();
                   },
                 ),
               ),
@@ -46,9 +57,11 @@ class BottomChatInputWidget extends StatelessWidget {
                 color: Colors.white,
                 icon: Icon(Icons.send),
                 onPressed: () {
-                  Provider.of<ChatList>(context)
-                      .addContent(chat, Content(chatController.text));
-                  chatController.clear();
+                var timeString = DateTime.now().hour.toString() + ':' + DateTime.now().minute.toString();
+                    Provider.of<ChatList>(context, listen: false)
+                        .addContent(widget.chat, Content(chatController.text, timeString));
+                    chatController.clear();
+                  widget.changeDependencies();
                 },
               ),
             ),

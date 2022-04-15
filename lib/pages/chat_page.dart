@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 class ChatPage extends StatefulWidget {
   int index;
 
-
   ChatPage(this.index, {Key? key}) : super(key: key);
 
   @override
@@ -23,19 +22,20 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     var chats = Provider.of<ChatList>(context).all;
+    Timer timer = Timer.periodic(Duration(seconds: 5), (timer) {
+      if (!mounted) return timer.cancel();
+      setState(() {
+        Provider.of<ChatList>(context, listen: false).loadChats();
 
+        timer.cancel();
+      });
+    });
 
     @override
     Future<void> changeDependencies() async {
-      Timer.periodic(Duration(seconds: 5), (timer) {
-        setState(() {
-          Provider.of<ChatList>(context, listen: false).loadChats();
-        });
-        return timer.cancel();
-      });
+      if (timer.isActive) return timer.cancel();
     }
-    //Provider.of<ChatList>(context).loadChats();
-    changeDependencies();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(chats[widget.index].name),
@@ -53,24 +53,34 @@ class _ChatPageState extends State<ChatPage> {
               clipper: ChatBubbleClipper1(type: BubbleType.sendBubble),
               alignment: Alignment.topRight,
               backGroundColor: Colors.indigo,
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 10),
               child: Container(
                 constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width * 0.7,
                 ),
-                child: Text(chats[this.widget.index].content[index].content, style: TextStyle(color: Colors.white, fontSize: 20),),
+                child: Stack(
+                  children: [
+                    Text(
+                      chats[this.widget.index].content[index].content,
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    Container(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        chats[this.widget.index].content[index].time,
+                        style: TextStyle(color: Colors.grey, fontSize: 10),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             itemCount: chats[this.widget.index].content.length,
             shrinkWrap: true,
           ),
-          BottomChatInputWidget(chats[widget.index]),
+          BottomChatInputWidget(chats[widget.index], timer, changeDependencies),
         ],
       ),
     );
   }
 }
-
-/*
-chats[this.index].content[index].content
- */

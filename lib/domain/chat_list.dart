@@ -28,7 +28,8 @@ class ChatList with ChangeNotifier {
     final body = jsonDecode(response.body);
     final id = body['name'];
     newChat.id = id;
-    var content = Content('You created this Chat');
+    var timeString = DateTime.now().hour.toString() + ':' + DateTime.now().minute.toString();
+    var content = Content('You created this Chat', timeString);
     final uriContent = Uri.parse('https://fluttermessenger-fbcc8-default-rtdb.firebaseio.com/chatList/$id/messages.json');
     final responseContent = await http.post(uriContent, body: jsonEncode(content.toJson()));
     final bodyContent = jsonDecode(responseContent.body);
@@ -36,7 +37,7 @@ class ChatList with ChangeNotifier {
     content.id = contentId;
     newChat.setContent([content]);
     _chats.add(newChat);
-    this.loadChats();
+    loadChats();
     notifyListeners();
   }
 
