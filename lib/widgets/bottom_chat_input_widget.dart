@@ -10,7 +10,10 @@ class BottomChatInputWidget extends StatefulWidget {
   Chat chat;
   Timer timer;
   Future<void> Function() changeDependencies;
-  BottomChatInputWidget(this.chat, this.timer, this.changeDependencies, {Key? key}) : super(key: key);
+
+  BottomChatInputWidget(this.chat, this.timer, this.changeDependencies,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<BottomChatInputWidget> createState() => _BottomChatInputWidgetState();
@@ -38,14 +41,19 @@ class _BottomChatInputWidgetState extends State<BottomChatInputWidget> {
                   decoration: new InputDecoration(
                     hintText: 'Message',
                   ),
-                  onTap: (){
-                   widget.timer.cancel();
+                  onTap: () {
+                    widget.timer.cancel();
                   },
                   onSubmitted: (value) {
-                    var timeString = DateTime.now().hour.toString() + ':' + DateTime.now().minute.toString();
-                      Provider.of<ChatList>(context, listen: false)
-                          .addContent(widget.chat, Content(value, timeString));
-                      chatController.clear();
+                    if (chatController.text == '') {
+                      return;
+                    }
+                    var timeString = DateTime.now().hour.toString() +
+                        ':' +
+                        DateTime.now().minute.toString();
+                    Provider.of<ChatList>(context, listen: false)
+                        .addContent(widget.chat, Content(value, timeString));
+                    chatController.clear();
                     widget.changeDependencies();
                   },
                 ),
@@ -57,10 +65,15 @@ class _BottomChatInputWidgetState extends State<BottomChatInputWidget> {
                 color: Colors.white,
                 icon: Icon(Icons.send),
                 onPressed: () {
-                var timeString = DateTime.now().hour.toString() + ':' + DateTime.now().minute.toString();
-                    Provider.of<ChatList>(context, listen: false)
-                        .addContent(widget.chat, Content(chatController.text, timeString));
-                    chatController.clear();
+                  if (chatController.text == '') {
+                    return;
+                  }
+                  var timeString = DateTime.now().hour.toString() +
+                      ':' +
+                      DateTime.now().minute.toString();
+                  Provider.of<ChatList>(context, listen: false).addContent(
+                      widget.chat, Content(chatController.text, timeString));
+                  chatController.clear();
                   widget.changeDependencies();
                 },
               ),

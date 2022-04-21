@@ -40,6 +40,9 @@ class BottomInputFieldWidget extends StatelessWidget {
 
                   },
                   onSubmitted: (value) {
+                    if(chatContorller.text == ''){
+                      return;
+                    }
                     var dateNow = DateTime.now().day.toString() +"."+ DateTime.now().month.toString() +"."+ DateTime.now().year.toString();
                     chatData.addChat(Chat(value,dateNow,[]));
                     chatContorller.clear();
@@ -54,6 +57,9 @@ class BottomInputFieldWidget extends StatelessWidget {
                 color: Colors.white,
                 icon: Icon(Icons.send),
                 onPressed: () {
+                  if(chatContorller.text == ''){
+                    return;
+                  }
                   var dateNow = DateTime.now().day.toString() +"."+ DateTime.now().month.toString() +"."+ DateTime.now().year.toString();
                   chatData.addChat(Chat(chatContorller.text,dateNow, []));
                   chatContorller.clear();
