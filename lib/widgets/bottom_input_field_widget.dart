@@ -43,7 +43,7 @@ class BottomInputFieldWidget extends StatelessWidget {
                     if(chatContorller.text == ''){
                       return;
                     }
-                    var dateNow = DateTime.now().day.toString() +"."+ DateTime.now().month.toString() +"."+ DateTime.now().year.toString();
+                    var dateNow = DateTime.now().day.toString() +"/"+ DateTime.now().month.toString() +"/"+ DateTime.now().year.toString();
                     chatData.addChat(Chat(value,dateNow,[]));
                     chatContorller.clear();
                     didChangeDependencies();
